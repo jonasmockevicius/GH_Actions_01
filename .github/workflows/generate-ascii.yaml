@@ -4,7 +4,7 @@ on: push
 
 jobs:
 
-    bulid_job_1:
+    build_job_1:
         runs-on: ubuntu-latest
         steps:
 
@@ -27,8 +27,11 @@ jobs:
         - name: Execute Cowsay Cmd
           run: cowsay -f dragon "Run for cover, im a Dragon....RAWR" >> dragon.txt
 
-        - name: Sleep for 10 seconds
-          run: sleep 10
+        - name: Upload Dragon text file
+          uses: actions/upload-artifact@v4
+          with:
+            name: Dragon-text-file
+            path: dragon.txt
 
         # - name: Test File exists
         #   run: grep -i "dragon" dragon.txt
@@ -39,12 +42,14 @@ jobs:
         # - name: Checkout Repo Files
         #   run: ls -ltra
     test_job_2:
-        needs: bulid_job_1
+        needs: build_job_1
         runs-on: ubuntu-latest
         steps:
         
-        - name: sleep for 5 seconds
-          run: sleep 5
+        - name: Download Dragon text file
+          uses: actions/download-artifact@v5
+          with:
+            name: Dragon-text-file
 
         - name: Test File exists
           run: grep -i "dragon" dragon.txt
@@ -53,6 +58,12 @@ jobs:
         needs: test_job_2
         runs-on: ubuntu-latest
         steps:
+
+        - name: Download Dragon text file
+          uses: actions/download-artifact@v5
+          with:
+            name: Dragon-text-file
+
         - name: Read File
           run: cat dragon.txt
 
