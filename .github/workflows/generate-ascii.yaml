@@ -8,8 +8,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
 
-        # - name: Checkout Repo
-        #   uses: actions/checkout@v5
+          - name: Checkout Repo
+            uses: actions/checkout@v5
         
           - name: Checkout Repo Files
             run: |
